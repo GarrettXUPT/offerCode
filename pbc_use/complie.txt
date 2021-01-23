@@ -1,0 +1,2 @@
+gcc main.c -L. -lpbc -lgmp
+./main < a.param
