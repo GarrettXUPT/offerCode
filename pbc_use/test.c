@@ -264,8 +264,8 @@ int main(int argc, char const *argv[])
     element_pow_zn(gT, g, theta);
     // // 此处存在公共参数para = (p, G1, G2, GT, g, h, gT, hT)
 
-    int n = 300;
-    int k = 5;
+    int n = 100;
+    int k = 10;
     time_t start1, start2, start3, start4, start5;
     time_t end1, end2, end3, end4, end5;
     /*
@@ -286,6 +286,7 @@ int main(int argc, char const *argv[])
     element_t* pk3Vec = keyGenPowOp(gT, sVec, pairing, n);
     end1 = clock();
     printf("keyGen alg during time = %f\n", ((double)(end1 - start1) / CLOCKS_PER_SEC));
+    freeVec(kVec);
 
 
     /*
@@ -306,6 +307,7 @@ int main(int argc, char const *argv[])
     element_t* VK = mulAndPow(pk2Vec, bVec, pairing, n);
     end2 = clock();
     printf("ProbGen alg during time = %f\n", ((double)(end2 - start2) / CLOCKS_PER_SEC));
+    freeVec(bVec); freeVec(sVec);
     /*
         计算算法
     */
@@ -324,6 +326,7 @@ int main(int argc, char const *argv[])
     }
     end3 = clock();
     printf("Compute alg during time = %f\n", ((double)(end3 - start3) / CLOCKS_PER_SEC));
+    freeVec(zVec);  freeVec(pk1Vec); freeVec(pk2Vec); freeVec(pk3Vec);
 
     /*
         验证算法
@@ -356,6 +359,9 @@ int main(int argc, char const *argv[])
     }
     end4 = clock();
     printf("Verify alg during time = %f\n", ((double)(end4 - start4) / CLOCKS_PER_SEC));
+    freeVec(y1TVec); freeVec(y2TVec); freeVec(ptmp);   freeVec(yTVec); freeMatrix(QTT, n);
+     freeVec(lVec); freeVec(VK);
+
     /*
         解密算法
     */
@@ -376,13 +382,10 @@ int main(int argc, char const *argv[])
     end5 = clock();
     printf("Solve alg during time = %f\n", ((double)(end5 - start5) / CLOCKS_PER_SEC));
 
-    freeVec(lVec); freeVec(kVec); freeVec(zVec); freeVec(sVec);
-    freeVec(pk1Vec); freeVec(pk2Vec); freeVec(pk3Vec);
-    freeMatrix(pMatrix, n); freeMatrix(aMatrix, n); freeMatrix(upTriMatirx, n); freeMatrix(nMatrix, n);
+
+    freeMatrix(pMatrix, n); freeMatrix(aMatrix, n);  freeMatrix(nMatrix, n);
     freeMatrix(tmp, n); freeMatrix(aTMatriix, n);
-    freeVec(bVec); freeVec(VK);
-    freeMatrix(QT, n); freeMatrix(RT, n); freeMatrix(QTT, n);
-    freeVec(yTVec); freeVec(y1TVec); freeVec(y2TVec);
+    freeMatrix(QT, n); freeMatrix(RT, n); 
     freeMatrix(Q, n); freeMatrix(R, n); freeMatrix(pT, n); freeMatrix(inVerN, n);
     freeMatrix(pq, n); freeMatrix(rn, n); freeMatrix(finalA, n);
 
