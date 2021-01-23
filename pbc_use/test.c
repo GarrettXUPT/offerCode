@@ -221,6 +221,21 @@ int matrixCmp(element_t** matrix1, element_t** matrix2, int n){
     return 0;
 }
 
+void freeVec(element_t* vec){
+    if(vec != NULL){
+        free(vec);
+    }
+}
+
+void freeMatrix(element_t** matrix, int n){
+    if(matrix != NULL){
+        for(int i = 0; i < n; ++i){
+            freeVec(matrix[i]);
+        }
+    }
+}
+
+
 
 
 int main(int argc, char const *argv[])
@@ -249,8 +264,8 @@ int main(int argc, char const *argv[])
     element_pow_zn(gT, g, theta);
     // // 此处存在公共参数para = (p, G1, G2, GT, g, h, gT, hT)
 
-    int n = 1000;
-    int k = 10;
+    int n = 300;
+    int k = 5;
     time_t start1, start2, start3, start4, start5;
     time_t end1, end2, end3, end4, end5;
     /*
@@ -360,5 +375,17 @@ int main(int argc, char const *argv[])
     }
     end5 = clock();
     printf("Solve alg during time = %f\n", ((double)(end5 - start5) / CLOCKS_PER_SEC));
+
+    freeVec(lVec); freeVec(kVec); freeVec(zVec); freeVec(sVec);
+    freeVec(pk1Vec); freeVec(pk2Vec); freeVec(pk3Vec);
+    freeMatrix(pMatrix, n); freeMatrix(aMatrix, n); freeMatrix(upTriMatirx, n); freeMatrix(nMatrix, n);
+    freeMatrix(tmp, n); freeMatrix(aTMatriix, n);
+    freeVec(bVec); freeVec(VK);
+    freeMatrix(QT, n); freeMatrix(RT, n); freeMatrix(QTT, n);
+    freeVec(yTVec); freeVec(y1TVec); freeVec(y2TVec);
+    freeMatrix(Q, n); freeMatrix(R, n); freeMatrix(pT, n); freeMatrix(inVerN, n);
+    freeMatrix(pq, n); freeMatrix(rn, n); freeMatrix(finalA, n);
+
+
     return 0;
 }
