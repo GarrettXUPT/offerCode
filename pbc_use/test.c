@@ -292,12 +292,11 @@ int main(int argc, char const *argv[])
     /*
         加密算法
     */
-    start2 = clock();
     element_t** pMatrix = setOneMatrix(n, pairing);
-    element_t** aMatrix = userMatrixGen(pairing, n);
     element_t** upTriMatirx = upTriMatrixGen(k, pairing);
     element_t** nMatrix = matrixGenByupTri(pairing, upTriMatirx, n, k);
-
+    start2 = clock();
+    element_t** aMatrix = userMatrixGen(pairing, n);
     element_t** tmp = matrixMul(pMatrix, aMatrix, pairing, n);
     element_t** aTMatriix = matrixMul(tmp, nMatrix, pairing, n);
 
@@ -365,21 +364,19 @@ int main(int argc, char const *argv[])
     /*
         解密算法
     */
-    start5 = clock();
     element_t*** QR = QRDiv(aMatrix, n, pairing);
     element_t** Q = QR[0]; element_t** R = QR[1];
-    element_t** pT = matrixTOp(pMatrix, pairing, n);
- 
     element_t** inVerN = invertMatrix(nMatrix, pairing, n);
-    
+    start5 = clock();
+    element_t** pT = matrixTOp(pMatrix, pairing, n);
     element_t** pq = matrixMul(pT, QT, pairing, n);
     element_t** rn = matrixMul(RT, inVerN, pairing, n);
+    end5 = clock();
     element_t** finalA = matrixMul(pq, rn, pairing, n);
 
     if(!matrixCmp(finalA, aMatrix, n)){
         printf("加解密 correct\n");
     }
-    end5 = clock();
     printf("Solve alg during time = %f\n", ((double)(end5 - start5) / CLOCKS_PER_SEC));
 
 
