@@ -236,10 +236,7 @@ void freeMatrix(element_t** matrix, int n){
 }
 
 
-
-
-int main(int argc, char const *argv[])
-{
+void process(int n, int k){
     // 对pairing进行初始化
     pairing_t pairing; 
     char param[1024];
@@ -264,8 +261,6 @@ int main(int argc, char const *argv[])
     element_pow_zn(gT, g, theta);
     // // 此处存在公共参数para = (p, G1, G2, GT, g, h, gT, hT)
 
-    int n = 100;
-    int k = 10;
     time_t start1, start2, start3, start4, start5;
     time_t end1, end2, end3, end4, end5;
     /*
@@ -326,6 +321,7 @@ int main(int argc, char const *argv[])
     end3 = clock();
     printf("Compute alg during time = %f\n", ((double)(end3 - start3) / CLOCKS_PER_SEC));
     freeVec(zVec);  freeVec(pk1Vec); freeVec(pk2Vec); freeVec(pk3Vec);
+    freeMatrix(tmp, n);
 
     /*
         验证算法
@@ -381,11 +377,16 @@ int main(int argc, char const *argv[])
 
 
     freeMatrix(pMatrix, n); freeMatrix(aMatrix, n);  freeMatrix(nMatrix, n);
-    freeMatrix(tmp, n); freeMatrix(aTMatriix, n);
+    freeMatrix(aTMatriix, n);
     freeMatrix(QT, n); freeMatrix(RT, n); 
     freeMatrix(Q, n); freeMatrix(R, n); freeMatrix(pT, n); freeMatrix(inVerN, n);
     freeMatrix(pq, n); freeMatrix(rn, n); freeMatrix(finalA, n);
 
 
+}
+
+int main(int argc, char const *argv[])
+{
+    process(100, 10);
     return 0;
 }
